@@ -11,7 +11,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
 
 #### START Nginx Installation
 
-ENV NGINX_VERSION 1.13.12
+ENV NGINX_VERSION 1.14.0
 
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
   && CONFIG="\
@@ -79,10 +79,10 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
   && export GNUPGHOME="$(mktemp -d)" \
   && found=''; \
   for server in \
-  ha.pool.sks-keyservers.net \
-  hkp://keyserver.ubuntu.com:80 \
-  hkp://p80.pool.sks-keyservers.net:80 \
-  pgp.mit.edu \
+    ha.pool.sks-keyservers.net \
+		hkp://keyserver.ubuntu.com:80 \
+		hkp://p80.pool.sks-keyservers.net:80 \
+		pgp.mit.edu \
   ; do \
   echo "Fetching GPG key $GPG_KEYS from $server"; \
   gpg --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$GPG_KEYS" && found=yes && break; \
