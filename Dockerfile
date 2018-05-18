@@ -1,4 +1,4 @@
-FROM php:7.2.1-fpm-alpine3.7
+FROM php:fpm-alpine
 
 LABEL maintainer="Ariel De Santo <adesanto@vdscorp.com.ar>"
 
@@ -11,7 +11,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
 
 #### START Nginx Installation
 
-ENV NGINX_VERSION 1.13.8
+ENV NGINX_VERSION 1.13.12
 
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
   && CONFIG="\
