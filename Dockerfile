@@ -183,25 +183,18 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
 
 
 
-RUN pecl install mcrypt-1.0.1 && docker-php-ext-enable mcrypt && \
-    docker-php-ext-configure gd \
+RUN pecl install docker-php-ext-configure gd \
       --with-gd \
       --with-freetype-dir=/usr/include/ \
       --with-png-dir=/usr/include/ \
       --with-jpeg-dir=/usr/include/ && \
     #curl iconv session
     docker-php-ext-install pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache && \
-    pecl install xdebug-2.6.0beta1 && \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
     mkdir -p /var/log/supervisor && \
-    EXPECTED_COMPOSER_SIGNATURE=$(wget -q -O - https://composer.github.io/installer.sig) && \
-    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('SHA384', 'composer-setup.php') === '${EXPECTED_COMPOSER_SIGNATURE}') { echo 'Composer.phar Installer verified'; } else { echo 'Composer.phar Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
-    php composer-setup.php --install-dir=/usr/bin --filename=composer && \
-    php -r "unlink('composer-setup.php');"  && \
     pip install -U pip && \
     apk del gcc musl-dev linux-headers libffi-dev augeas-dev python-dev make autoconf
 
