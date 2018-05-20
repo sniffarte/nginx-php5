@@ -25,7 +25,7 @@ fi
 if [[ "$HIDE_NGINX_HEADERS" == "0" ]] ; then
  sed -i "s/server_tokens off;/server_tokens on;/g" /etc/nginx/nginx.conf
 else
- sed -i "s/expose_php = On/expose_php = Off/g" /usr/local/etc/php-fpm.conf
+ sed -i "s/expose_php=1/expose_php=0/g" /usr/local/etc/php/conf.d/docker-vars.ini
 fi
 
 # Pass real-ip to logs when behind ELB, etc
