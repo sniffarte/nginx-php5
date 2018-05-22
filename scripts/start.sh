@@ -10,22 +10,26 @@ fi
 
 # Prevent config files from being filled to infinity by force of stop and restart the container
 lastlinephpconf="$(grep "." /usr/local/etc/php-fpm.conf | tail -1)"
-if [[ $lastlinephpconf == *"php_flag[display_errors]"* ]]; then
+if [[ $lastlinephpconf == *"php_admin_flag[display_errors]"* ]]; then
  sed -i '$ d' /usr/local/etc/php-fpm.conf
 fi
 
 # Display PHP error's or not
 if [[ "$ERRORS" != "1" ]] ; then
- echo php_flag[display_errors] = off >> /usr/local/etc/php-fpm.conf
+ echo php_admin_flag[display_errors] = off >> /usr/local/etc/php-fpm.conf
+ sed -i -e "s/error_reporting =.*=/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/g" /usr/local/etc/php/conf.d/docker-vars.ini
+ sed -i -e "s/display_errors =.*/display_errors = On/g" /usr/local/etc/php/conf.d/docker-vars.ini
 else
- echo php_flag[display_errors] = on >> /usr/local/etc/php-fpm.conf
+ echo php_admin_flag[display_errors] = on >> /usr/local/etc/php-fpm.conf
+ sed -i -e "s/error_reporting =.*=/error_reporting = E_ALL/g" /usr/local/etc/php/conf.d/docker-vars.ini
+ sed -i -e "s/display_errors =.*/display_errors = Off/g" /usr/local/etc/php/conf.d/docker-vars.ini
 fi
 
 # Display Version Details or not
 if [[ "$HIDE_NGINX_HEADERS" == "0" ]] ; then
  sed -i "s/server_tokens off;/server_tokens on;/g" /etc/nginx/nginx.conf
 else
- sed -i "s/expose_php=1/expose_php=0/g" /usr/local/etc/php/conf.d/docker-vars.ini
+ sed -i "s/expose_php=0/expose_php=1/g" /usr/local/etc/php/conf.d/docker-vars.ini
 fi
 
 # Pass real-ip to logs when behind ELB, etc
