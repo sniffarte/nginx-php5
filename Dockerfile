@@ -7,7 +7,7 @@ ENV fpm_conf /usr/local/etc/php-fpm.d/www.conf
 ENV php_vars /usr/local/etc/php/conf.d/docker-vars.ini
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv 
 
 #### START Nginx Installation
 
@@ -183,7 +183,10 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
 
 
 
-RUN docker-php-ext-install pdo_mysql pdo_sqlite mysqli mysql gd exif intl xsl json soap dom zip opcache && \
+RUN docker-php-source extract && \
+    docker-php-ext-install iconv mcrypt && \
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include --with-jpeg-dir=/usr/include/ && \
+    docker-php-ext-install pdo_mysql pdo_sqlite mysqli mysql gd exif intl xsl json soap dom zip opcache && \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
