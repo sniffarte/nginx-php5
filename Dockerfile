@@ -214,7 +214,7 @@ RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/defau
 RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
     echo "expose_php=1" >> ${php_vars} &&\
     echo "date.timezone = UTC"  >> ${php_vars} &&\
-    echo "default_charset = \"latin1\""  >> ${php_vars} &&\
+    echo "default_charset = \"latin1\" "  >> ${php_vars} &&\
     echo "upload_max_filesize = 100M"  >> ${php_vars} &&\
     echo "post_max_size = 100M"  >> ${php_vars} &&\
     echo "variables_order = \"EGPCS\""  >> ${php_vars} && \
