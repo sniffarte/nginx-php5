@@ -80,9 +80,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
   && found=''; \
   for server in \
         ha.pool.sks-keyservers.net \
-		hkp://keyserver.ubuntu.com:80 \
-		hkp://p80.pool.sks-keyservers.net:80 \
-		pgp.mit.edu \
+        hkp://keyserver.ubuntu.com:80 \
+        hkp://p80.pool.sks-keyservers.net:80 \
+        pgp.mit.edu \
   ; do \
   echo "Fetching GPG key $GPG_KEYS from $server"; \
   gpg --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$GPG_KEYS" && found=yes && break; \
@@ -214,7 +214,6 @@ RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/defau
 RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
     echo "expose_php=1" >> ${php_vars} &&\
     echo "date.timezone = UTC"  >> ${php_vars} &&\
-    echo "default_charset = \"latin1\" "  >> ${php_vars} &&\
     echo "upload_max_filesize = 100M"  >> ${php_vars} &&\
     echo "post_max_size = 100M"  >> ${php_vars} &&\
     echo "variables_order = \"EGPCS\""  >> ${php_vars} && \
